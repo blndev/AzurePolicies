@@ -1,0 +1,49 @@
+
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "platform-image-policy",
+    "properties": {
+        "displayName": "Allow only small Machines",
+        "description": "This policy ensures that only VM Sizes up to 150€/Month can be used",
+        "parameters": {},
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "in": [
+                            "Microsoft.Compute/virtualMachines"
+                            ]
+                    },
+                    {
+                        "not": {
+                            "allOf": [
+                                {
+                                    "field": "Microsoft.Compute/virtualMachines/sku.name",
+                                    "in": [
+                                        "Basic_A0",
+                                        "Basic_A1",
+                                        "Basic_A2",
+                                        "Standard_A0",
+                                        "Standard_A1",
+                                        "Standard_A2",
+                                        "Standard_A2M",
+                                        "Standard_D1_v2",
+                                        "Standard_D2_v2",
+                                        "Standard_D11_v2"
+                                        "Standard_DS1_v2",
+                                        "Standard_DS2_v2",
+                                        "Standard_DS11_v2"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deny"
+            }
+        }
+    }
+}
